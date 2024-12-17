@@ -6,7 +6,7 @@ const TriviaCategory = ({ categories }) => {
     const navigate = useNavigate();
 
     const handleCategoryClick = (category) => {
-        console.log("Navigating to /game with category:", category); // בדיקת הקטגוריה
+        console.log("Navigating to /game with category:", category); 
 
         navigate(`/game`, { state: { category } });
     };

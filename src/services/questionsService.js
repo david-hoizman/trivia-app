@@ -1,42 +1,3 @@
-// // data.js
-// export const questionsData = {
-//     recommended: [
-//       { text: 'What is the capital of France?', options: ['Paris', 'London', 'Berlin', 'Madrid'] },
-//       // עוד שאלות...
-//     ],
-//     newest: [
-//       // שאלות נוספות...
-//     ],
-//     educational: [
-//       // שאלות נוספות...
-//     ],
-//     behindTheScenes: [
-//       // שאלות נוספות...
-//     ],
-//     stories: [
-//       // שאלות נוספות...
-//     ],
-//   };
-  // src/services/questionsService.js
-// export const getQuestionsByCategory = (category) => {
-//   const questionsData = {
-//       "מומלצים": [
-//           { text: "מהי עיר הבירה של ישראל?", options: ["ירושלים", "תל אביב", "חיפה"], correctAnswer: "ירושלים" },
-//           // שאלות נוספות
-//       ],
-//       "חדשים": [
-//           { text: "מהי מערכת האור החודשית", options: ["קשר ירח", "שמש", "כוכבים"], correctAnswer: "קשר ירח" },
-//           // שאלות נוספות
-//       ],
-//       "לימודיים": [
-//           { text: "מהי מערכת ררררררררררררררר החודשית", options: ["קשר ירח", "שמש", "כוכבים"], correctAnswer: "קשר ירח" },
-//           // שאלות נוספות
-//       ],
-//       // קאטגוריות נוספות
-//   };
-
-//   return questionsData[category] || [];
-// }
 export const getQuestionsByCategory = (category) => {
   const questionsData = {
     "מומלצים": [
@@ -60,7 +21,6 @@ export const getQuestionsByCategory = (category) => {
       { text: "מהי עיר קודש לחמישה?", options: ["ירושלים", "תל אביב", "חיפה"], correctAnswer: "ירושלים" },
       { text: "מהו המשקל של לוח זהב?", options: ["1 קילוגרם", "100 גרם", "10 קילוגרם"], correctAnswer: "100 גרם" }
     ]
-    // קאטגוריות נוספות
   };
 
   return questionsData[category] || [];

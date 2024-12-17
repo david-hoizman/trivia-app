@@ -1,62 +1,61 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useGameSettings } from '../contexts/GameSettingsContext'; 
 import TriviaCard from '../components/TriviaCard';
 import { getQuestionsByCategory } from '../services/questionsService';
-import { shuffleArray } from '../utils/shuffleUtils'; // פונקציה שמערבבת את המערך
+import { shuffleArray } from '../utils/shuffleUtils';
 
 const GamePage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const category = location.state?.category; // קבלת הקטגוריה מה-state
+    const { questionCount } = useGameSettings(); 
+    const category = location.state?.category;
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
     const [isAnswering, setIsAnswering] = useState(false);
-    const [answered, setAnswered] = useState(false); // מצב עבור אם כבר ענו או לא
-    const questionRefs = useRef([]); // Ref לשמירת התייחסויות לכל שאלות
+    const [answered, setAnswered] = useState(false);
+    const questionRefs = useRef([]);
 
     useEffect(() => {
         if (!category) {
-            navigate('/'); // אם אין קטגוריה, חזור לדף הבית
+            navigate('/');
             return;
         }
 
+        // שליפת שאלות בהתאם לכמות שנבחרה
         const allQuestions = getQuestionsByCategory(category);
-        const randomQuestions = shuffleArray(allQuestions).slice(0, 3); // בוחר שלוש שאלות רנדומליות
+        const randomQuestions = shuffleArray(allQuestions).slice(0, questionCount);
         setQuestions(randomQuestions);
-    }, [category, navigate]);
+    }, [category, navigate, questionCount]);
 
     useEffect(() => {
         if (isAnswering && selectedOption !== null) {
             const isCorrect = questions[currentQuestionIndex].correctAnswer === selectedOption;
             const questionElement = questionRefs.current[currentQuestionIndex];
-    
-            // צבע את כל התשובות
+
             const optionsElements = questionElement.querySelectorAll('[data-option]');
-            optionsElements.forEach(optionElement => {
+            optionsElements.forEach((optionElement) => {
                 const option = optionElement.getAttribute('data-option');
                 if (selectedOption === option) {
-                    optionElement.style.borderColor = isCorrect ? 'blue' : 'red'; // אם זו התשובה הנבחרת, צבע בכחול אם היא נכונה, באדום אם היא לא
+                    optionElement.style.borderColor = isCorrect ? 'blue' : 'red';
                 } else if (questions[currentQuestionIndex].correctAnswer === option) {
-                    // optionElement.style.borderColor = 'blue'; // אם זו התשובה הנכונה (אך לא נבחרה), צבע בכחול
-                    optionElement.style.backgroundColor = 'green'; // הצבע את התשובה הנכונה בירוק
+                    optionElement.style.backgroundColor = 'green';
                 }
             });
-    
-            // תזמן מעבר לשאלה הבאה לאחר 2 שניות
+
             const timeout = setTimeout(() => {
                 moveToNextQuestion();
             }, 2000);
-    
+
             return () => clearTimeout(timeout);
         }
     }, [isAnswering, selectedOption, currentQuestionIndex, questions]);
-    
 
     const handleAnswer = (selectedOption) => {
         setSelectedOption(selectedOption);
         setIsAnswering(true);
-        setAnswered(true); // עדכן שהשאלה הזאת נענתה
+        setAnswered(true);
     };
 
     const moveToNextQuestion = () => {
@@ -64,9 +63,8 @@ const GamePage = () => {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setSelectedOption(null);
             setIsAnswering(false);
-            setAnswered(false); // ביטול הסטטוס של שאלה נענתה
+            setAnswered(false);
         } else {
-            // סיום המשחק
             alert('נגמר הסיבוב!');
             navigate('/summary');
         }
@@ -84,7 +82,7 @@ const GamePage = () => {
             <TriviaCard
                 key={currentQuestionIndex}
                 id={`question-${currentQuestionIndex}`}
-                ref={el => questionRefs.current[currentQuestionIndex] = el} // הצמדנו את ה-Ref הנכון לכל שאלה
+                ref={(el) => (questionRefs.current[currentQuestionIndex] = el)}
                 question={currentQuestion.text}
                 options={currentQuestion.options}
                 onSelect={handleAnswer}
