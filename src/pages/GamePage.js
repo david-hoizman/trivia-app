@@ -4,11 +4,13 @@ import { useGameSettings } from '../contexts/GameSettingsContext';
 import TriviaCard from '../components/TriviaCard';
 import { getQuestionsByCategory } from '../services/questionsService';
 import { shuffleArray } from '../utils/shuffleUtils';
+import Timer from '../components/Timer/Timer';
 
 const GamePage = () => {
+    const TIME_TO_TURN = 10;
     const location = useLocation();
     const navigate = useNavigate();
-    const { questionCount } = useGameSettings(); 
+    const { questionCount , isTurnActive, setIsTurnActive, setTime} = useGameSettings(); 
     const category = location.state?.category;
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -27,7 +29,10 @@ const GamePage = () => {
         const allQuestions = getQuestionsByCategory(category);
         const randomQuestions = shuffleArray(allQuestions).slice(0, questionCount);
         setQuestions(randomQuestions);
-    }, [category, navigate, questionCount]);
+        if(!isTurnActive){
+            moveToNextQuestion()
+        }
+    }, [category, navigate, questionCount,isTurnActive]);
 
     useEffect(() => {
         if (isAnswering && selectedOption !== null) {
@@ -64,6 +69,8 @@ const GamePage = () => {
             setSelectedOption(null);
             setIsAnswering(false);
             setAnswered(false);
+            setIsTurnActive(true);
+            setTime(TIME_TO_TURN)
         } else {
             alert('נגמר הסיבוב!');
             navigate('/summary');
@@ -78,6 +85,7 @@ const GamePage = () => {
 
     return (
         <div>
+            <Timer/>
             <h1>קטגוריה: {category}</h1>
             <TriviaCard
                 key={currentQuestionIndex}
