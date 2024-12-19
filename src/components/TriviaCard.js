@@ -1,10 +1,10 @@
 import React from 'react';
-import { CardWrapper, Option } from './TriviaCard.styles';
+import { CardWrapper, Option, Options } from './TriviaCard.styles';
 
 const TriviaCard = React.forwardRef(({ question, options, onSelect, selectedOption, questions, currentQuestionIndex }, ref) => (
     <CardWrapper ref={ref}>
         <h3>{question}</h3>
-        <ul>
+        <Options>
             {options.map((option, index) => (
                 <Option
                     key={index}
@@ -21,7 +21,7 @@ const TriviaCard = React.forwardRef(({ question, options, onSelect, selectedOpti
                     {option}
                 </Option>
             ))}
-        </ul>
+        </Options>
     </CardWrapper>
 ));
 

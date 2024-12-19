@@ -37,7 +37,7 @@ export const Button = styled.button`
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-
+    margin:5px;
     &:hover {
         background-color: #0056b3;
         color: #ffffff;
@@ -66,3 +66,12 @@ export const StartButton = styled.button`
         background-color: #218838;
     }
 `;
+
+// כפתור התחל משחק
+export const SubTitle = styled.text`
+    text-align:right;
+`;
+
+
+
+

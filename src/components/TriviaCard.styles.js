@@ -8,6 +8,15 @@ export const CardWrapper = styled.div`
     margin: 20px;
     max-width: 400px;
     text-align: center;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+`;
+
+export const Options = styled.ul`
+    width:90%;
+    padding:0px;
 `;
 
 export const Option = styled.li`
@@ -18,7 +27,7 @@ export const Option = styled.li`
     border-radius: 5px;
     cursor: pointer;
     background-color: #f9f9f9;
-
+    width:100%;
     &:hover {
         background-color: #ddd;
     }

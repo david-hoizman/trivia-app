@@ -5,6 +5,7 @@ import TriviaCard from '../components/TriviaCard';
 import { getQuestionsByCategory } from '../services/questionsService';
 import { shuffleArray } from '../utils/shuffleUtils';
 import Timer from '../components/Timer/Timer';
+import { Container, PageWrapper } from './gamePage.styles';
 
 const GamePage = () => {
     const TIME_TO_TURN = 10;
@@ -84,7 +85,8 @@ const GamePage = () => {
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-        <div>
+        <PageWrapper>
+            <Container>
             <Timer/>
             <h1>קטגוריה: {category}</h1>
             <TriviaCard
@@ -98,7 +100,8 @@ const GamePage = () => {
                 questions={questions}
                 currentQuestionIndex={currentQuestionIndex}
             />
-        </div>
+            </Container>
+        </PageWrapper>
     );
 };
 
