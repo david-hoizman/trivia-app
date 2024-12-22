@@ -12,5 +12,6 @@ export const TimerWrapper = styled.div`
     color: ${({ isRed }) => (isRed ? 'red' : 'white')};  
     font-size:20px;
     font-family:Lucida Console;
+    width:100%;
 `;
 
